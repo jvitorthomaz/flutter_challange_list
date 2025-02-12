@@ -1,43 +1,50 @@
-import 'package:flutter_challange_motel_list/services/api_service.dart';
-import 'package:flutter_challange_motel_list/viewmodels/motel_viewmodel.dart';
+import 'package:flutter_challange_motel_list/models/motel_model.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:http/http.dart' as http;
-import 'package:http/testing.dart';
+import 'package:mockito/mockito.dart';
+import 'package:provider/provider.dart';
+import 'package:flutter_challange_motel_list/viewmodels/motel_viewmodel.dart';
+import 'package:flutter_challange_motel_list/services/api_service.dart';
+
+class MockApiService extends Mock implements ApiService {}
 
 void main() {
-  group('MotelViewModel', () {
-    test('should fetch motel data and update state', () async {
-      final mockClient = MockClient((request) async {
-        return http.Response('''
-          {
-            "sucesso": true,
-            "data": {
-              "pagina": 1,
-              "qtdPorPagina": 10,
-              "totalSuites": 50,
-              "totalMoteis": 5,
-              "raio": 5.0,
-              "maxPaginas": 5.0,
-              "moteis": [
-                {"fantasia": "Motel 1", "bairro": "Bairro 1", "logo": "http://example.com/logo1.png"}
-              ]
-            }
-          }
-        ''', 200);
-      });
+  group('MotelViewModel Tests', () {
+    late MotelViewModel viewModel;
+    late MockApiService mockApiService;
 
-      final apiService = ApiService();
-      apiService.client = mockClient;
+    setUp(() {
+      mockApiService = MockApiService();
+      viewModel = MotelViewModel(apiService: mockApiService);
+    });
 
-      final viewModel = MotelViewModel();
-      viewModel._apiService = apiService;
+    test('Deve buscar os motéis corretamente', () async {
+      final mockData = ApiMotelModel(
+        sucesso: true,
+        pagina: 1,
+        qtdPorPagina: 10,
+        totalSuites: 5,
+        totalMoteis: 2,
+        raio: 10,
+        maxPaginas: 2,
+        moteis: [],
+      );
+
+      when(mockApiService.fetchMoteis()).thenAnswer((_) async => mockData);
 
       await viewModel.fetchMoteis();
 
-      expect(viewModel.isLoading, false);
-      expect(viewModel.error, null);
       expect(viewModel.motelData, isNotNull);
-      expect(viewModel.motelData!.moteis.length, 1);
+      expect(viewModel.isLoading, false);
+      expect(viewModel.error, isNull);
+    });
+
+    test('Deve lidar com erro na API', () async {
+      when(mockApiService.fetchMoteis()).thenThrow(Exception("Erro na API"));
+
+      await viewModel.fetchMoteis();
+
+      expect(viewModel.error, isNotNull);
+      expect(viewModel.motelData, isNull);
     });
   });
 }

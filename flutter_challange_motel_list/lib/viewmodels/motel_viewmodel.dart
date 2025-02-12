@@ -3,6 +3,10 @@ import '../models/motel_model.dart';
 import '../services/api_service.dart';
 
 class MotelViewModel with ChangeNotifier {
+  final ApiService apiService;
+
+  MotelViewModel({ApiService? apiService}) : apiService = apiService ?? ApiService();
+  
   ApiMotelModel? _motelData;
   bool _isLoading = false;
   String? _error;

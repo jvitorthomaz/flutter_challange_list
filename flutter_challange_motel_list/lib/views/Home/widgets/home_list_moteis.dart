@@ -1,10 +1,7 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_challange_motel_list/core/constants.dart';
-import 'package:flutter_challange_motel_list/core/ui/widgets/filter_widget.dart';
 import 'package:provider/provider.dart';
-
-import 'package:flutter_challange_motel_list/models/motel_model.dart';
 import 'package:flutter_challange_motel_list/viewmodels/motel_viewmodel.dart';
 
 class MotelWidget extends StatefulWidget {
