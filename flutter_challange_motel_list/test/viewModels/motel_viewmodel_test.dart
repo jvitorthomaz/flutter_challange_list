@@ -18,18 +18,21 @@ void main() {
     });
 
     test('Deve buscar os motéis corretamente', () async {
-      final mockData = ApiMotelModel(
-        sucesso: true,
-        pagina: 1,
-        qtdPorPagina: 10,
-        totalSuites: 5,
-        totalMoteis: 2,
-        raio: 10,
-        maxPaginas: 2,
-        moteis: [],
-      );
+      final mockJson = {
+        "sucesso": true,
+        "data": {
+          "pagina": 1,
+          "qtdPorPagina": 10,
+          "totalSuites": 5,
+          "totalMoteis": 2,
+          "raio": 10.0,
+          "maxPaginas": 2,
+          "moteis": []
+        }
+      };
 
-      when(mockApiService.fetchMoteis()).thenAnswer((_) async => mockData);
+      // Retornar um Map<String, dynamic> para combinar com o método fetchMoteis()
+      when(mockApiService.fetchMoteis()).thenAnswer((_) async => mockJson);
 
       await viewModel.fetchMoteis();
 
