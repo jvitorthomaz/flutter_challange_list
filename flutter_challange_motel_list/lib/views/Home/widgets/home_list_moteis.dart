@@ -49,6 +49,8 @@ class _MotelWidgetState extends State<MotelWidget> {
         }
 
         final motel = motelData.moteis[widget.index];
+        final suiteInfo = motelData.moteis[widget.index].suites[widget.index];
+
 
         return Container(
           padding: const EdgeInsets.all(16.0),
@@ -139,32 +141,43 @@ class _MotelWidgetState extends State<MotelWidget> {
                     );
                   }).toList(),
                 ),
-              const SizedBox(height: 20),
+              const SizedBox(height: 10),
 
               if (motel.suites.isNotEmpty) ...[
-                Wrap(
-                  spacing: 10,
-                  children: motel.suites.expand((suite) => suite.itens).map((item) {
-                    return Chip(
-                      avatar: const Icon(Icons.check_circle, color: Colors.green),
-                      label: Text(item.nome),
-                    );
-                  }).toList(),
-                ),
-                const SizedBox(height: 20),
-
-                const Text(
-                  "Períodos disponíveis",
-                  style: TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
+                Card(
+                  child: InkWell(
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                        child: Wrap(
+                          spacing: 10,
+                          children: motel.suites.expand((suite) => suite.itens).take(4).map((item) {
+                            return Chip(
+                              avatar: const Icon(Icons.check_circle, color: Colors.green),
+                              label: Text(item.nome),
+                            );
+                          }).toList(),
+                        )
+                      
+                    ),
+                    onTap: () {
+                     // Direciona para a página com todos os itens
+                    },
                   ),
                 ),
                 const SizedBox(height: 10),
+
+                // const Text(
+                //   "Períodos disponíveis",
+                //   style: TextStyle(
+                //     fontSize: 18,
+                //     fontWeight: FontWeight.bold,
+                //   ),
+                // ),
+                // const SizedBox(height: 10),
                 Wrap(
                   spacing: 10,
                   runSpacing: 10,
-                  children: motel.suites.expand((suite) => suite.periodos).map((periodo) {
+                  children: motel.suites.expand((suite) => suite.periodos).take(3).map((periodo) {
                     return Container(
                       width: MediaQuery.of(context).size.width * 0.9,
                       height: 80,
