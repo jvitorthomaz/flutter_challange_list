@@ -14,31 +14,34 @@ class MapFloatingButtom extends StatelessWidget {
             decoration: BoxDecoration(
               color: AppColors.colorWhite,
               borderRadius: BorderRadius.circular(25.0),
+              boxShadow: [
+                BoxShadow(color: Colors.black26, blurRadius: 5, spreadRadius: 1),
+              ], 
               //border: Border.all()
             ),
             child: Padding(
-              padding: const EdgeInsets.fromLTRB(10, 0, 20, 0),
+              padding: const EdgeInsets.fromLTRB(15, 10, 20, 10),
               child: InkWell(
-                child: Row(
+                child: const Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     ClipOval(
-                      child: IconButton(
-                        icon: const Icon(
+                      child: Icon(
                           Icons.map,
                           color: AppColors.colorRed,
                           size: 20,
                         ),
-                        onPressed: () {
-                        },
-                      ),
+                       
                     ),
-                    const Text(
+                    Text(
                       'mapa',
                       style: TextStyle(color: AppColors.colorRed),
                     )
                   ],
                 ),
+                onTap: () {
+                  
+                },
               ),
             ),
           ),

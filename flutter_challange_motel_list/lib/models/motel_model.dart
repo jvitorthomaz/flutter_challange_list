@@ -25,15 +25,16 @@ class ApiMotelModel {
       ApiMotelModel.fromMap(json);
 
   factory ApiMotelModel.fromMap(Map<String, dynamic> json) {
+    final data = json["data"] ?? {}; 
     return ApiMotelModel(
       sucesso: json["sucesso"] ?? false,
-      pagina: json["data"]["pagina"] ?? 0,
-      qtdPorPagina: json["data"]["qtdPorPagina"] ?? 0,
-      totalSuites: json["data"]["totalSuites"] ?? 0,
-      totalMoteis: json["data"]["totalMoteis"] ?? 0,
-      raio: (json["data"]["raio"] as num?)?.toDouble() ?? 0.0,
-      maxPaginas: (json["data"]["maxPaginas"] as num?)?.toDouble() ?? 0.0,
-      moteis: (json["data"]["moteis"] as List<dynamic>?)
+      pagina: data["pagina"] ?? 0,
+      qtdPorPagina: data["qtdPorPagina"] ?? 0,
+      totalSuites: data["totalSuites"] ?? 0,
+      totalMoteis: data["totalMoteis"] ?? 0,
+      raio: (data["raio"] as num?)?.toDouble() ?? 0.0,
+      maxPaginas: (data["maxPaginas"] as num?)?.toDouble() ?? 0.0,
+      moteis: (data["moteis"] as List<dynamic>?)
               ?.map((x) => MotelModel.fromMap(x))
               .toList() ??
           [],
@@ -73,32 +74,41 @@ class MotelModel {
 
 class Suite {
   final String nome;
-  final String imagem;
+  final List<String> fotos;
   final int qtd;
   final List<Item> itens;
   final List<Periodo> periodos;
 
   Suite({
     required this.nome,
-    required this.imagem,
+    required this.fotos,
     required this.qtd,
     required this.itens,
     required this.periodos,
   });
 
-  factory Suite.fromMap(Map<String, dynamic> json) => Suite(
-        nome: json["nome"] ?? '',
-        imagem: json["imagem"] ?? '',
-        qtd: json["qtd"] ?? 0,
-        itens: (json["itens"] as List<dynamic>?)
-                ?.map((x) => Item.fromMap(x))
-                .toList() ??
-            [],
-        periodos: (json["periodos"] as List<dynamic>?)
-                ?.map((x) => Periodo.fromMap(x))
-                .toList() ??
-            [],
-      );
+  factory Suite.fromMap(Map<String, dynamic> json) {
+    final fotos = (json["fotos"] as List<dynamic>?)
+            ?.map((img) => img.toString()) 
+            .toList() ??
+        []; 
+
+    print("Suite: ${json["nome"]}, fotos: $fotos"); 
+
+    return Suite(
+      nome: json["nome"] ?? '',
+      fotos: fotos,
+      qtd: json["qtd"] ?? 0,
+      itens: (json["itens"] as List<dynamic>?)
+              ?.map((x) => Item.fromMap(x))
+              .toList() ??
+          [],
+      periodos: (json["periodos"] as List<dynamic>?)
+              ?.map((x) => Periodo.fromMap(x))
+              .toList() ??
+          [],
+    );
+  }
 }
 
 class Item {

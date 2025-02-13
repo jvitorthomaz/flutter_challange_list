@@ -19,11 +19,13 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
+    
     return Scaffold(
       appBar: AppBar(backgroundColor: AppColors.colorRed,),
 
       
-      body: Container(
+      body: 
+      Container(
            decoration: const BoxDecoration(
             borderRadius: BorderRadius.only(
               topLeft: Radius.circular(32),

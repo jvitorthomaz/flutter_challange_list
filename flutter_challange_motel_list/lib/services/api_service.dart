@@ -7,9 +7,12 @@ class ApiService {
   Future<Map<String, dynamic>?> fetchMoteis() async {
     try {
       final response = await http.get(Uri.parse(apiUrl));
-
       if (response.statusCode == 200) {
-        return json.decode(utf8.decode(response.bodyBytes)) as Map<String, dynamic>;
+        final decodedJson = json.decode(utf8.decode(response.bodyBytes)) as Map<String, dynamic>;
+
+        print("JSON recebido da API: ${jsonEncode(decodedJson)}");
+
+        return decodedJson;
       } else {
         throw Exception("Erro ao carregar os dados: ${response.statusCode}");
       }

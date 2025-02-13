@@ -30,8 +30,7 @@ void main() {
           "moteis": []
         }
       };
-
-      // Retornar um Map<String, dynamic> para combinar com o método fetchMoteis()
+      
       when(mockApiService.fetchMoteis()).thenAnswer((_) async => mockJson);
 
       await viewModel.fetchMoteis();
