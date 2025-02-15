@@ -10,7 +10,7 @@ class CustomDrawer extends StatelessWidget {
         children: [
           
           Container(
-            padding: const EdgeInsets.all(20),
+            padding: const EdgeInsets.fromLTRB(20, 100, 20, 20),
             decoration: const BoxDecoration(
               gradient: LinearGradient(
                 colors: [Colors.redAccent, Colors.pinkAccent],
@@ -64,7 +64,7 @@ class CustomDrawer extends StatelessWidget {
           ),
 
           const Padding(
-            padding: EdgeInsets.all(16),
+            padding: EdgeInsets.all(32),
             child: Text(
               "versão 2.0.087",
               style: TextStyle(

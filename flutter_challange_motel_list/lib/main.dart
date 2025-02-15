@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'viewmodels/motel_viewmodel.dart';
-import 'views/Home/home_screen.dart';
+import 'views/home/home_screen.dart';
 void main() {
   runApp(MyApp());
 }

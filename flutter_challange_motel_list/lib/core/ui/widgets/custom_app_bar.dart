@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_challange_motel_list/core/constants.dart';
 import 'package:flutter_challange_motel_list/core/ui/drawer/drawer.dart';
+import 'package:flutter_challange_motel_list/views/search_bar/search_bar_screen.dart';
 
 class CustomAppBar extends StatefulWidget {
   
@@ -10,93 +11,87 @@ class CustomAppBar extends StatefulWidget {
 }
 
 class _CustomAppBarState extends State<CustomAppBar> {
-  int _selectedToggle = 0;
-  String _selectedLocation = "Minha Localização";
-
-
-  double _toggleXAlign = -1;
-  Color _leftTextColor = Colors.black;
-  Color _rightTextColor = Colors.white;
-
-  void _toggle(int index) {
-    setState(() {
-      if (index == 0) {
-        _toggleXAlign = -1;
-        _leftTextColor = Colors.black;
-        _rightTextColor = Colors.white;
-      } else {
-        _toggleXAlign = 1;
-        _leftTextColor = Colors.white;
-        _rightTextColor = Colors.black;
-      }
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      
-      decoration: const BoxDecoration(
-        color: AppColors.colorRed,
-        borderRadius: BorderRadius.only(
-          bottomLeft: Radius.circular(32),
-          bottomRight: Radius.circular(32),
+    return AppBar(
+      iconTheme: const IconThemeData(color: Colors.white),
+      toolbarHeight: 100,
+      elevation: 0,
+      backgroundColor: AppColors.colorRed,
+      title: Container(
+        decoration: const BoxDecoration(
+          borderRadius: BorderRadius.only(
+            bottomLeft: Radius.circular(32),
+            bottomRight: Radius.circular(32),
+          ),
         ),
-
-      ),
-      
-      
-      padding: EdgeInsets.only(bottom: 8),
-      child: Column(
-        children: [
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
-            child: Row(
+        width: MediaQuery.of(context).size.width,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.end,
+              mainAxisAlignment: MainAxisAlignment.end,
               children: [
-                IconButton(
-                  icon: const Icon(Icons.menu, color: Colors.white),
-                  onPressed: () {},
-                ),
-                const Spacer(),
-
                 CustomToggleButton(),
-
-                const Spacer(),
-                IconButton(
-                  icon: const Icon(Icons.search, color: Colors.white),
-                  onPressed: () {},
-                ),
+                const CustomDropdownButton(),
               ],
             ),
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-            child: DropdownButtonHideUnderline(
-              child: DropdownButton<String>(
-                dropdownColor: AppColors.colorRedLight,
-                value: _selectedLocation,
-                icon: const Icon(Icons.arrow_drop_down, color: AppColors.colorWhite),
-                onChanged: (String? newValue) {
-                  setState(() {
-                    _selectedLocation = newValue!;
-                  });
-                },
-                items: <String>["Minha Localização", "Outra Localização"]
-                    .map<DropdownMenuItem<String>>((String value) {
-                  return DropdownMenuItem<String>(
-                    value: value,
-                    child: Text(value, style: const TextStyle(color: AppColors.colorWhite)),
-                  );
-                }).toList(),
-              ),
+            IconButton(
+              icon: const Icon(Icons.search, color: Colors.white, size: 22,),
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (BuildContext context) => SearchScreen()
+                  )
+                );
+              },
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
+}
 
-  
+class CustomDropdownButton extends StatefulWidget {
+  const CustomDropdownButton({super.key});
+
+  @override
+  State<CustomDropdownButton> createState() => _CustomDropdownButtonState();
+}
+
+class _CustomDropdownButtonState extends State<CustomDropdownButton> {
+  int _selectedToggle = 0;
+  String _selectedLocation = "Minha Localização";
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+      child: DropdownButtonHideUnderline(
+        child: DropdownButton<String>(
+          dropdownColor: AppColors.colorRedLight,
+          value: _selectedLocation,
+          icon: const Icon(Icons.arrow_drop_down, color: AppColors.colorWhite),
+          onChanged: (String? newValue) {
+            setState(() {
+              _selectedLocation = newValue!;
+            });
+          },
+          items: <String>["Minha Localização", "Outra Localização"]
+              .map<DropdownMenuItem<String>>((String value) {
+            return DropdownMenuItem<String>(
+              value: value,
+              child: Text(value, style: const TextStyle(color: AppColors.colorWhite)),
+            );
+          }).toList(),
+        ),
+      ),
+    );
+  }
 }
 
 class CustomToggleButton extends StatefulWidget {
@@ -125,7 +120,7 @@ class _CustomToggleButtonState extends State<CustomToggleButton> {
 
   @override
   Widget build(BuildContext context) {
-    double width = MediaQuery.of(context).size.width * 0.7;
+    double width = MediaQuery.of(context).size.width * 0.5;
     double height = 40;
 
     return Container(
@@ -140,7 +135,7 @@ class _CustomToggleButtonState extends State<CustomToggleButton> {
         children: [
           AnimatedAlign(
             alignment: Alignment(_toggleXAlign, 0),
-            duration: Duration(milliseconds: 300),
+            duration: const Duration(milliseconds: 300),
             child: Container(
               width: width * 0.5,
               height: height,
@@ -154,7 +149,7 @@ class _CustomToggleButtonState extends State<CustomToggleButton> {
           GestureDetector(
             onTap: () => _toggle(0),
             child: Align(
-              alignment: Alignment(-1, 0),
+              alignment: const Alignment(-1, 0),
               child: Container(
                 width: width * 0.5,
                 color: Colors.transparent,
@@ -162,12 +157,15 @@ class _CustomToggleButtonState extends State<CustomToggleButton> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Icon(Icons.flash_on, color: _leftTextColor, size: 18),
-                    SizedBox(width: 5),
+                    Icon(Icons.flash_on, color: _leftTextColor, size: 12),
+                    const SizedBox(width: 5),
                     Text("Ir Agora",
                         style: TextStyle(
+                          fontSize: 12,
                             color: _leftTextColor,
-                            fontWeight: FontWeight.bold)),
+                            fontWeight: FontWeight.bold
+                        )
+                    ),
                   ],
                 ),
               ),
@@ -184,10 +182,11 @@ class _CustomToggleButtonState extends State<CustomToggleButton> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Icon(Icons.calendar_today, color: _rightTextColor, size: 18),
+                    Icon(Icons.calendar_today, color: _rightTextColor, size: 12),
                     SizedBox(width: 5),
                     Text("Ir Outro Dia",
                         style: TextStyle(
+                            fontSize: 12,
                             color: _rightTextColor,
                             fontWeight: FontWeight.bold)),
                   ],

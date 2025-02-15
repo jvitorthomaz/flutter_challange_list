@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_challange_motel_list/views/Home/widgets/home_list_moteis.dart';
+import 'package:flutter_challange_motel_list/views/home/widgets/home_list_moteis.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:flutter_challange_motel_list/models/motel_model.dart';
 

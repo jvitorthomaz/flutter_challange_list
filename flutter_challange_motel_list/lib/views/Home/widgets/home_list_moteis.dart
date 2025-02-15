@@ -1,5 +1,7 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_challange_motel_list/views/search_bar/search_bar_screen.dart';
+import 'package:flutter_challange_motel_list/views/suite_details_screen/suite_details_screen.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_challange_motel_list/viewmodels/motel_viewmodel.dart';
 
@@ -46,55 +48,57 @@ class _MotelWidgetState extends State<MotelWidget> {
         return SizedBox(
           width: MediaQuery.of(context).size.width,
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Card(
-                child: InkWell(
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Row(
-                      children: [
-                        ClipRRect(
-                          borderRadius: BorderRadius.circular(100),
-                          child: Image.network(
-                            motel.logo,
-                            width: 50,
-                            height: 50,
-                            errorBuilder: (context, error, stackTrace) {
-                              return const Icon(Icons.broken_image, size: 50);
-                            },
-                          ),
-                        ),
-                        const SizedBox(width: 10),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              motel.fantasia,
-                              style: const TextStyle(
-                                fontSize: 20,
-                                fontWeight: FontWeight.bold,
-                              ),
+              SizedBox(
+                width: MediaQuery.of(context).size.width*0.9,
+                child: Card(
+                  child: InkWell(
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Row(
+                        children: [
+                          ClipRRect(
+                            borderRadius: BorderRadius.circular(100),
+                            child: Image.network(
+                              motel.logo,
+                              width: 50,
+                              height: 50,
+                              errorBuilder: (context, error, stackTrace) {
+                                return const Icon(Icons.broken_image, size: 50);
+                              },
                             ),
-                            Text(motel.bairro),
-                            Text('${motel.distancia} km de distância'),
-                          ],
-                        ),
-                      ],
+                          ),
+                          const SizedBox(width: 10),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                motel.fantasia,
+                                style: const TextStyle(
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              Text(motel.bairro),
+                              Text('${motel.distancia} km de distância'),
+                            ],
+                          ),
+                        ],
+                      ),
                     ),
+                    onTap: () {
+                      
+                    },
                   ),
-                  onTap: () {
-                    
-                  },
                 ),
               ),
 
               CarouselSlider(
                 options: CarouselOptions(
                   height: MediaQuery.of(context).size.height, 
-                  viewportFraction: 0.9
-                  //enlargeCenterPage: true,
-                  //autoPlay: true,
+                  viewportFraction: 0.9,
+                  enlargeCenterPage: true,
                 ),
                 items: motel.suites.map((suite) {
                   return Builder(
@@ -111,7 +115,6 @@ class _MotelWidgetState extends State<MotelWidget> {
                                     crossAxisAlignment: CrossAxisAlignment.center,
                                     children: [
                                       Container(
-                                          
                                         child: ClipRRect(
                                           borderRadius: BorderRadius.circular(8),
                                           child: Image.network(
@@ -139,7 +142,7 @@ class _MotelWidgetState extends State<MotelWidget> {
                                       Row(
                                         mainAxisAlignment: MainAxisAlignment.center,
                                         children: [
-                                          Text("🚨", style: TextStyle(fontSize: 12)),
+                                          const Text("🚨", style: TextStyle(fontSize: 12)),
                                           Text(
                                             'Só mais ${suite.qtd} pelo app ',
                                             style: const TextStyle(
@@ -178,17 +181,22 @@ class _MotelWidgetState extends State<MotelWidget> {
                                           children: motel.suites.expand((suite) => suite.itens).take(4).map((item) {
                                             return Chip(
                                               avatar: const Icon(Icons.check_circle, color: Colors.green, size: 12,),
-                                              label: Text(item.nome, style: TextStyle( fontSize: 12) ,),
+                                              label: Text(item.nome, style: const TextStyle( fontSize: 12) ,),
                                             );
                                           }).toList(),
                                           
                                         ),
-                                        Icon(Icons.keyboard_arrow_right),
+                                        const Icon(Icons.keyboard_arrow_right),
                                       ],
                                     ),
                                   ),
                                   onTap: () {
-                                    // Direciona para a página com todos os itens
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (BuildContext context) => SuiteDetailsScreen()
+                                      )
+                                    );
                                   },
                                 ),
                               ),
@@ -197,7 +205,6 @@ class _MotelWidgetState extends State<MotelWidget> {
                           if (suite.periodos.isNotEmpty)
                             Wrap(
                               spacing: 10,
-                              //runSpacing: 5,
                               children: motel.suites.expand((suite) => suite.periodos).take(3).map((periodo) {
                                 return Card(
                                   child: InkWell(
@@ -235,12 +242,11 @@ class _MotelWidgetState extends State<MotelWidget> {
                                               ),
                                             ],
                                           ),
-                                          Icon(Icons.keyboard_arrow_right),
+                                          const Icon(Icons.keyboard_arrow_right),
                                         ],
                                       ),
                                     ),
                                     onTap: () {
-                                    // Direciona para a página do horário
                                   },
                                   ),
                                 );
