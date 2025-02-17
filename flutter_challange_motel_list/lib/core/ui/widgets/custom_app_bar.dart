@@ -33,7 +33,7 @@ class _CustomAppBarState extends State<CustomAppBar> {
             Column(
               crossAxisAlignment: CrossAxisAlignment.end,
               mainAxisAlignment: MainAxisAlignment.end,
-              children: [
+              children: [ 
                 CustomToggleButton(),
                 const CustomDropdownButton(),
               ],

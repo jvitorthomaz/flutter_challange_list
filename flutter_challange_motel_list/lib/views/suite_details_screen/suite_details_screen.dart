@@ -20,10 +20,13 @@ class _SuiteDetailsScreenState extends State<SuiteDetailsScreen> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             InkWell(
-              child: Icon(
-                Icons.keyboard_arrow_down, 
-                size: 30, 
-                color: Colors.grey[700]
+              child: Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Icon(
+                  Icons.keyboard_arrow_down, 
+                  size: 30, 
+                  color: Colors.grey[700]
+                ),
               ),
               onTap: (){
                 Navigator.pop(context);
@@ -35,7 +38,7 @@ class _SuiteDetailsScreenState extends State<SuiteDetailsScreen> {
 
             Center(
               child: Text(
-                "suíte sensação",
+                "Suíte Marselha s/ garagem privativa",
                 style: TextStyle(fontSize: 28, fontWeight: FontWeight.w300, color: Colors.grey[800]),
               ),
             ),
