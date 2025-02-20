@@ -47,6 +47,7 @@ class _MotelWidgetState extends State<MotelWidget> {
 
         return SizedBox(
           width: MediaQuery.of(context).size.width,
+          //child: SingleChildScrollView9
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
@@ -260,6 +261,7 @@ class _MotelWidgetState extends State<MotelWidget> {
               ),
             ],
           ),
+          //),
         );
       },
     );
